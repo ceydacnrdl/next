@@ -1,0 +1,21 @@
+.container {
+  position: relative;
+  top: 50px;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.image {
+  width: 282px; /* Sabit genişlik */
+  height: 227px; /* Sabit yükseklik */
+  margin-right: 16px; /* Sağ tarafta boşluk bırakmak için */
+}
+
+.image img {
+  width: 100%; /* Fotoğrafın container'a göre genişliğini doldurması için */
+  height: 100%; /* Fotoğrafın container'a göre yüksekliğini doldurması için */
+  object-fit: cover; /* Fotoğraf oranlarını korurken container'a sığdırmak için */
+}

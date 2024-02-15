@@ -1,0 +1,15 @@
+.container {
+    height: 50px;
+    max-width: 100%; /* Make the container responsive up to the screen width */
+    margin: 0 auto; /* Center the container horizontally */
+    text-align: center;
+}
+
+.line {
+    background-color: #DDDDDD;
+    height: 1px; /* Specify the height for a horizontal line */
+    width: 100%; /* Make the line responsive to the container's width */
+    border: none; /* Remove the border or set it to your desired style */
+    margin: 0; /* Remove any default margin */
+   
+}
