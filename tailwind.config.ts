@@ -1,8 +1,14 @@
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
-  content: ['./shared/**/*.{js,ts,jsx,tsx}', './modules/**/*.{js,ts,jsx,tsx}', './pages/**/*.{js,ts,jsx,tsx}'],
-  plugins: [],
+  content: [
+    './components/**/*.{js,ts,jsx,tsx}',
+    './layout/**/*.{js,ts,jsx,tsx}',
+    './pages/**/*.{js,ts,jsx,tsx}',
+    './node_modules/flowbite/**/*.js',
+  ],
+  plugins: [require('flowbite/plugin')],
+
   theme: {
     container: {
       center: true,
@@ -67,7 +73,13 @@ const config: Config = {
         18: '4.5rem',
         26: '6.5rem',
         22: '5.5rem',
+        1: '0.063rem',
+        50: '3.125rem',
       },
+      width: {
+        15: '15rem',
+      },
+
       textColor: {
         light: '#757575',
       },
