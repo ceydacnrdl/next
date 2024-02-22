@@ -1,3 +1,30 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+* {
+  --min-size: 10;
+  --max-size: 16;
+  --max-width: 1920;
+  --min-width: 768;
+
+  --diff-size: calc(var(--max-size) - var(--min-size));
+  --diff-width: calc(var(--max-width) - var(--min-width));
+
+  --font-size: clamp(
+    var(--min-size) * 1px,
+    calc((var(--min-size) * 1px) + var(--diff-size) * ((100vw - calc(var(--min-width) * 1px)) / (var(--diff-width)))),
+    var(--max-size) * 1px
+  );
+}
+
+html {
+  font-size: var(--font-size);
+
+  @media (max-width: 768px) {
+    --min-size: 14;
+    --max-size: 16;
+    --max-width: 768;
+    --min-width: 320;
+  }
+}

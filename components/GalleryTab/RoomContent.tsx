@@ -1,26 +1,65 @@
-import { useFetchRoomsContent } from 'hooks/useFetchRoomsContent';
-import React from 'react';
+import React, { useMemo, useState } from 'react';
+import { type Photo } from 'react-photo-album';
+import Lightbox from 'yet-another-react-lightbox';
 
-const RoomContent = ({ firstItem, isOpen, name, index }: any) => {
-  const { data: roomContent } = useFetchRoomsContent(name, firstItem?.id);
+import { useFetchRoomsContent } from 'hooks/useFetchRoomsContent';
+
+interface RoomContentProps {
+  firstItem: any;
+  isOpen: boolean;
+  name: string;
+}
+
+export default function RoomContent({ firstItem, isOpen, name }: RoomContentProps) {
+  const [index, setIndex] = useState(-1);
+  const { data: roomContent } = useFetchRoomsContent(name, firstItem?.id, isOpen);
+
+  const newArray = useMemo(() => {
+    const newArray: { md: Photo[]; gallery: Photo[] } = { md: [], gallery: [] };
+
+    roomContent?.forEach((navItem: any) => {
+      if (navItem.name.includes('-md')) {
+        const replacedName = navItem.name.replace('-md', '-gallery');
+        const galleryItem = roomContent.find(({ name }: any) => name === replacedName);
+
+        if (galleryItem) {
+          newArray.md.push({
+            id: navItem.id!,
+            src: navItem.url!,
+            width: navItem.width!,
+            height: navItem.height!,
+          });
+
+          newArray.gallery.push({
+            id: galleryItem.id!,
+            src: galleryItem.url!,
+            width: galleryItem.width!,
+            height: galleryItem.height!,
+          });
+        }
+      }
+    });
+
+    return newArray;
+  }, [roomContent]);
 
   return (
-    <div>
-      {isOpen && (
-        <div className='container relative grid justify-center items-center grid-cols-4 gap-4 top-[5.813rem]'>
-          {roomContent
-            ?.filter((photo: any) => photo.name.includes('md'))
-            .map((filteredPhoto: any, photoIndex: any) => (
-              <div key={filteredPhoto.id}>
-                <button type='button' className='outline-none'>
-                  <img src={filteredPhoto.url} alt={`Image ${photoIndex + 1}`} />
+    isOpen && (
+      <div className='container relative mt-8'>
+        <div className='grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+          {newArray.md?.map((photo: any, index: any) =>
+            index > 0 ? (
+              <div key={photo.id}>
+                <button type='button' onClick={() => setIndex(index)} className='outline-none'>
+                  <img src={photo.src} alt='Content' />
                 </button>
               </div>
-            ))}
+            ) : null
+          )}
         </div>
-      )}
-    </div>
-  );
-};
 
-export default RoomContent;
+        <Lightbox open={index >= 0} close={() => setIndex(-1)} slides={newArray.gallery} index={index} />
+      </div>
+    )
+  );
+}

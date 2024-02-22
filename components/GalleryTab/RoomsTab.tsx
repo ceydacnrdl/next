@@ -1,48 +1,41 @@
 import React, { useState } from 'react';
-import Rooms from 'icons/Rooms';
+import RoomsIcon from 'icons/Rooms';
 import AccordionIcon from 'icons/AccordionIcon';
-import Lightbox from 'yet-another-react-lightbox';
 import { useFetcRoomshHeader } from 'hooks/useFetchRoomsHeader';
-import { useFetchRoomsContent } from 'hooks/useFetchRoomsContent';
 import RoomContent from './RoomContent';
 
-const RoomAccordion = ({ name, index, roomsNameValue }: any) => {
+function RoomAccordion({ name, roomsNameValue }: any) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [roomName, setRoomName] = useState<string | undefined>();
   const firstItem = roomsNameValue?.[0];
 
   return (
-    <div key={name.id}>
+    <div key={name.id} className='mt-8'>
       <button
+        className='relative w-full h-[3.938rem] bg-secondary-light container flex items-center'
         onClick={() => {
-          setRoomName(name);
           setIsOpen((prev) => !prev);
         }}
-        className='relative w-[75rem] h-[3.938rem] top-[3.125rem] bg-secondary-light container flex items-center '
       >
         <div className='relative px-5 flex items-center'>
-          <Rooms className='h-[1.75rem] w-[1.75rem]' />
-          <div className='font-serif ml-2 '>{name.toUpperCase().split('-')}</div>
+          <RoomsIcon className='h-[1.75rem] w-[1.75rem]' />
+          <div className='font-serif ml-2 '>{name.toUpperCase().split('-').join(' ')}</div>
         </div>
-        <div className='ml-auto'>
+        <div className=' ml-auto mr-4'>
           <AccordionIcon open={isOpen} />
         </div>
       </button>
-      <RoomContent firstItem={firstItem} isOpen={isOpen} name={name} index={index} />
+      <RoomContent firstItem={firstItem} isOpen={isOpen} name={name} />
     </div>
   );
-};
+}
 
-const RoomsTab = () => {
-  const { data: roomsNameValue, error, isLoading } = useFetcRoomshHeader();
+function RoomsTab() {
+  const { data: roomsNameValue, isFetching } = useFetcRoomshHeader();
+  if (isFetching) return 'Loading...';
 
-  return (
-    <>
-      {roomsNameValue?.map(({ name }: any, index: any) => (
-        <RoomAccordion name={name} index={index} roomsNameValue={roomsNameValue} />
-      ))}
-    </>
+  return roomsNameValue?.map(({ id, name }: any, index: number) =>
+    index > 0 ? <RoomAccordion key={id} name={name} roomsNameValue={roomsNameValue} /> : null
   );
-};
+}
 
 export default RoomsTab;

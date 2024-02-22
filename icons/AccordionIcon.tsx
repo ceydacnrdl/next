@@ -4,7 +4,7 @@ interface AccordionIconProps extends React.SVGProps<SVGSVGElement> {
   open: boolean;
 }
 
-export default function AccordionIcon({ fill = 'currentColor', open, ...props }: AccordionIconProps) {
+export default function AccordionIcon({ open, ...props }: AccordionIconProps) {
   const transformValue = open ? 'rotate(180 0 0)' : '';
 
   return (

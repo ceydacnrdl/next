@@ -8,7 +8,7 @@ export function useFetcRoomshHeader() {
     queryFn: async () => {
       const headers = new Headers();
       headers.append('X-TenantId', '4');
-      const response = await fetch('https://api.selectumhotels.com/api/v1/FileManager/rooms?fileType=1', { headers });
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/FileManager/rooms?fileType=1`, { headers });
       return response.json();
     },
   });

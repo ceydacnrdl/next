@@ -21,6 +21,9 @@ const config: Config = {
       },
     },
     extend: {
+      spacing: {
+        '30px': '1.875rem',
+      },
       backgroundImage: {
         check: "url('/images/svg/check.svg')",
         'two-right-arrow': "url('/images/svg/two-right-arrow.svg')",

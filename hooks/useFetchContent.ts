@@ -9,8 +9,10 @@ export function useFetchContent(tab: string, parentId?: number) {
       const headers = new Headers();
       headers.append('X-TenantId', '4');
       const response = await fetch(
-        `https://api.selectumhotels.com/api/v1/FileManager/${tab}?fileType=2&parentId=${parentId}`,
-        { headers }
+        `${process.env.NEXT_PUBLIC_API_URL}/FileManager/${tab}?fileType=2&parentId=${parentId}`,
+        {
+          headers,
+        }
       );
       return response.json();
     },
